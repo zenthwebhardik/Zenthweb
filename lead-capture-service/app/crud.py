@@ -17,7 +17,6 @@ def get_lead(db: Session, lead_id: uuid.UUID) -> models.LeadInquiry | None:
 
 
 def get_lead_by_email(db: Session, email: str) -> models.LeadInquiry | None:
-    """Ek email = ek hi entry, isliye .first() hi kaafi hai."""
     return db.query(models.LeadInquiry).filter(models.LeadInquiry.email == email).first()
 
 
@@ -34,12 +33,11 @@ def list_leads(db: Session, skip: int = 0, limit: int = 100) -> list[models.Lead
 def update_own_lead(
     db: Session, owner_email: str, updates: schemas.LeadInquiryUpdate
 ) -> models.LeadInquiry | None:
-    """Sirf apni hi entry update kar sakta hai — email se match karke."""
     lead = get_lead_by_email(db, owner_email)
     if not lead:
         return None
 
-    update_data = updates.model_dump(exclude_unset=True)  # sirf jo fields bheje gaye hain
+    update_data = updates.model_dump(exclude_unset=True)
     for field, value in update_data.items():
         setattr(lead, field, value)
 
