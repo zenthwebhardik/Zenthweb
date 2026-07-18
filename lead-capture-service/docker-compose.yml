@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: zenthweb-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: zenthweb_leads
+    ports:
+      - "5433:5432"
+    volumes:
+      - zenthweb_pgdata:/var/lib/postgresql/data
+
+volumes:
+  zenthweb_pgdata:
